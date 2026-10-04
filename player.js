@@ -127,19 +127,22 @@
         if (typeof d === 'string') { try { d = JSON.parse(d); } catch (err) { return; } }
         if (!d) return;
         if (d.action === 'sync') applySync(d);
-        if (d.action === 'dot') showDot(d.x, d.y);
+        if (d.action === 'dot') showDot(d.x, d.y, d.hold === true);
     });
 
     // ---------- Markierung der Klickstelle (Debug) ----------
+    const PLAYER_VERSION = 3;
     let dotTimer = null;
-    function showDot(x, y) {
+    function showDot(x, y, hold) {
         const dot = document.getElementById('dot');
         if (!dot) return;
         dot.style.left = (x * 100) + '%';
         dot.style.top = (y * 100) + '%';
+        document.getElementById('dotlbl').textContent =
+            'Player v' + PLAYER_VERSION + '  x=' + Number(x).toFixed(3) + ' y=' + Number(y).toFixed(3);
         dot.style.display = 'block';
         clearTimeout(dotTimer);
-        dotTimer = setTimeout(() => { dot.style.display = 'none'; }, 1200);
+        dotTimer = setTimeout(() => { dot.style.display = 'none'; }, hold ? 700 : 1500);
     }
 
     // ---------- Start ----------

@@ -11,6 +11,11 @@
         position: absolute; width: 36px; height: 36px; margin: -18px 0 0 -18px;
         border: 4px solid #ff2fb0; border-radius: 50%; display: none; pointer-events: none; z-index: 5;
     }
+    #dot span {
+        position: absolute; top: 44px; left: 50%; transform: translateX(-50%);
+        white-space: nowrap; color: #fff; font: 600 24px 'Segoe UI', sans-serif;
+        text-shadow: 0 0 4px #000, 0 0 8px #000;
+    }
     #msg {
         position: absolute; left: 0; top: 0; width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; text-align: center;
@@ -23,8 +28,16 @@
 <body>
 <div id="ytwrap"><div id="yt"></div></div>
 <video id="vid" playsinline></video>
-<div id="dot"></div>
+<div id="dot"><span id="dotlbl"></span></div>
 <div id="msg">Lade …</div>
-<script src="player.js"></script>
+<script>
+    // player.js mit demselben Versions-Parameter laden wie die Seite, damit kein alter Zwischenspeicher greift
+    (function () {
+        var v = new URLSearchParams(location.search).get('v') || '';
+        var s = document.createElement('script');
+        s.src = 'player.js' + (v ? '?v=' + encodeURIComponent(v) : '');
+        document.body.appendChild(s);
+    })();
+</script>
 </body>
 </html>
